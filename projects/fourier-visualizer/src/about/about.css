@@ -1,0 +1,160 @@
+.about-page {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 36px 24px 80px;
+  font-family: ui-monospace, 'Cascadia Code', monospace;
+}
+
+.about-page h1 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #e8d8be;
+  margin: 0 0 16px;
+}
+
+.about-page p {
+  font-size: 14px;
+  line-height: 1.75;
+  color: #a09078;
+  max-width: 680px;
+  margin: 0 0 14px;
+}
+
+.about-section {
+  margin-top: 4px;
+}
+
+.wg-pair {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  margin: 8px 0 20px;
+}
+
+.wg-single {
+  margin: 8px 0 20px;
+}
+
+.wg-figure {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.wg-svg {
+  display: block;
+  background: #17140e;
+  border: 1px solid #332e27;
+  border-radius: 6px;
+}
+
+.wg-label {
+  font-size: 11px;
+  color: #86755e;
+  text-align: center;
+  letter-spacing: 0.02em;
+}
+
+/* ── Fourier Sweep animation ── */
+.fs-panel {
+  margin-top: 48px;
+  padding-top: 28px;
+  border-top: 1px solid #332e27;
+}
+
+.fs-panel h2 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #e8d8be;
+  margin: 0 0 8px;
+}
+
+.fs-subtitle {
+  font-size: 14px;
+  line-height: 1.7;
+  color: #a09078;
+  max-width: 680px;
+  margin: 0 0 18px;
+}
+
+.fs-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.fs-btn {
+  padding: 6px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.fs-btn-play  { background: #db8a23; color: #1e1b15; }
+.fs-btn-play:hover  { background: #e8951f; }
+.fs-btn-pause { background: #50585c; color: #e8d8be; }
+.fs-btn-pause:hover { background: #636b70; }
+.fs-btn-reset { background: transparent; color: #86755e; border: 1px solid #50585c; }
+.fs-btn-reset:hover { background: #332e27; color: #e8d8be; }
+
+.fs-speed-ctrl {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.fs-speed-label  { font-size: 11px; color: #86755e; }
+.fs-speed-slider { width: 80px; accent-color: #51aadb; cursor: pointer; }
+
+.fs-info {
+  font-size: 12px;
+  color: #a09078;
+  margin-left: 4px;
+}
+
+.fs-info-key  { color: #50585c; }
+.fs-resonance { color: #51aadb; font-weight: 700; }
+.fs-silence   { color: #50585c; }
+.fs-match     { color: #51aadb; font-style: italic; }
+
+.fs-row {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.fs-figure {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.fs-wide {
+  display: block;
+}
+
+.fs-svg {
+  display: block;
+  background: #17140e;
+  border: 1px solid #332e27;
+  border-radius: 6px;
+}
+
+.fs-label {
+  font-size: 11px;
+  color: #86755e;
+  letter-spacing: 0.02em;
+}

@@ -1,0 +1,472 @@
+.musicbox-page {
+  min-height: calc(100vh - 45px);
+  background: #1e1b15;
+  color: #e8d8be;
+  font-family: ui-monospace, 'Cascadia Code', monospace;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Toolbar ── */
+.mb-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 20px;
+  border-bottom: 1px solid #50585c;
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #1e1b15;
+}
+
+.mb-btn {
+  padding: 7px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.mb-btn-play  { background: #db8a23; color: #1e1b15; }
+.mb-btn-play:hover { background: #e8951f; }
+.mb-btn-stop  { background: #da3633; color: #fff; }
+.mb-btn-stop:hover { background: #f85149; }
+.mb-btn-clear { background: transparent; color: #86755e; border: 1px solid #50585c; }
+.mb-btn-clear:hover { background: #332e27; color: #e8d8be; }
+
+.bpm-control {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 4px;
+}
+
+.bpm-label { font-size: 11px; color: #86755e; text-transform: uppercase; letter-spacing: 0.05em; }
+.bpm-slider { width: 110px; accent-color: #51aadb; cursor: pointer; }
+.bpm-value  { font-size: 13px; min-width: 30px; color: #e8d8be; }
+
+.mb-time-sig {
+  font-size: 11px;
+  color: #50585c;
+  margin-left: auto;
+}
+
+/* ── Scroll container ── */
+.mb-scroll {
+  overflow: auto;
+  padding: 20px;
+  flex: 1;
+}
+
+/* ── Grid ── */
+.mb-grid {
+  display: inline-flex;
+  flex-direction: column;
+  user-select: none;
+}
+
+/* Header row (beat labels) */
+.mb-header-row {
+  display: flex;
+  margin-bottom: 4px;
+}
+
+.mb-corner {
+  width: 40px;
+  min-width: 40px;
+  flex-shrink: 0;
+}
+
+.mb-header-cell {
+  width: 39px;
+  min-width: 39px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  color: #86755e;
+  box-sizing: border-box;
+}
+
+.mb-header-cell.hdr-measure {
+  color: #51aadb;
+  font-size: 11px;
+  font-weight: 600;
+  border-left: 2px solid #50585c;
+}
+
+.mb-header-cell.hdr-beat {
+  color: #9a8878;
+  border-left: 1px solid #332e27;
+}
+
+/* Note rows */
+.mb-row {
+  display: flex;
+  height: 39px;
+}
+
+.mb-row-c {
+  background: rgba(81, 170, 219, 0.025);
+}
+
+.mb-note-label {
+  width: 40px;
+  min-width: 40px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 8px;
+  font-size: 10px;
+  color: #86755e;
+  position: sticky;
+  left: 0;
+  background: #1e1b15;
+  z-index: 1;
+  box-sizing: border-box;
+}
+
+.mb-note-label-c {
+  color: #a09078;
+  font-weight: 600;
+}
+
+.mb-row-c .mb-note-label {
+  background: rgba(30, 27, 21, 0.97);
+}
+
+/* Cells */
+.mb-cell {
+  width: 39px;
+  min-width: 39px;
+  height: 39px;
+  box-sizing: border-box;
+  cursor: pointer;
+  touch-action: none;
+  border-right: 1px solid transparent;
+  border-bottom: 1px solid #1e1b15;
+  background: #2a261f;
+  transition: background 0.07s;
+}
+
+.mb-cell:hover {
+  background: #332e27;
+}
+
+/* Alternating 8th-note shading */
+.mb-cell.mb-offbeat {
+  background: #201d17;
+}
+.mb-cell.mb-offbeat:hover {
+  background: #2a2820;
+}
+
+/* Beat group background tints — M1 = 4 blues, M2 = 4 ambers */
+.mb-cell.mb-beat-0 { background: rgba(81,  170, 219, 0.07); }
+.mb-cell.mb-beat-1 { background: rgba(139, 200, 232, 0.07); }
+.mb-cell.mb-beat-2 { background: rgba(96,  135, 156, 0.07); }
+.mb-cell.mb-beat-3 { background: rgba(53,  128, 181, 0.07); }
+.mb-cell.mb-beat-4 { background: rgba(219, 138,  35, 0.07); }
+.mb-cell.mb-beat-5 { background: rgba(240, 168,  48, 0.07); }
+.mb-cell.mb-beat-6 { background: rgba(184, 104,  21, 0.07); }
+.mb-cell.mb-beat-7 { background: rgba(224, 192,  96, 0.07); }
+
+.mb-cell.mb-offbeat.mb-beat-0 { background: rgba(81,  170, 219, 0.04); }
+.mb-cell.mb-offbeat.mb-beat-1 { background: rgba(139, 200, 232, 0.04); }
+.mb-cell.mb-offbeat.mb-beat-2 { background: rgba(96,  135, 156, 0.04); }
+.mb-cell.mb-offbeat.mb-beat-3 { background: rgba(53,  128, 181, 0.04); }
+.mb-cell.mb-offbeat.mb-beat-4 { background: rgba(219, 138,  35, 0.04); }
+.mb-cell.mb-offbeat.mb-beat-5 { background: rgba(240, 168,  48, 0.04); }
+.mb-cell.mb-offbeat.mb-beat-6 { background: rgba(184, 104,  21, 0.04); }
+.mb-cell.mb-offbeat.mb-beat-7 { background: rgba(224, 192,  96, 0.04); }
+
+/* Beat separators */
+.mb-cell.mb-beat-sep {
+  border-left: 1px solid #332e27;
+}
+
+/* Measure separator */
+.mb-cell.mb-measure-sep {
+  border-left: 2px solid #50585c;
+}
+
+/* Active (note placed) — amber/gold music-box tine */
+.mb-cell.mb-active {
+  background: #db8a23 !important;
+  border-radius: 5px;
+  box-shadow: inset 0 1px 0 rgba(255,220,100,0.35), 0 0 6px rgba(219,138,35,0.45);
+}
+.mb-cell.mb-active:hover {
+  background: #e8951f !important;
+}
+
+/* Playhead column */
+.mb-cell.mb-playing {
+  background: rgba(81, 170, 219, 0.13) !important;
+}
+.mb-cell.mb-active.mb-playing {
+  background: #51aadb !important;
+  box-shadow: 0 0 8px rgba(81, 170, 219, 0.65);
+}
+
+/* ── Note sequence waveforms ── */
+.nw-panel {
+  border-bottom: 1px solid #50585c;
+  padding: 10px 20px 12px;
+  flex-shrink: 0;
+  background: #1e1b15;
+  height: 160px;
+  display: flex;
+  flex-direction: column;
+}
+
+.nw-header {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: #86755e;
+  margin-bottom: 8px;
+}
+
+.nw-empty {
+  font-size: 12px;
+  color: #86755e;
+  margin: 0;
+  padding: 4px 0 2px;
+}
+
+.nw-scroll {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 3px;
+  flex: 1;
+  overflow-x: auto;
+  overflow-y: auto;
+  padding-bottom: 2px;
+  scrollbar-width: thin;
+  scrollbar-color: #50585c transparent;
+}
+
+.nw-group {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex-shrink: 0;
+}
+
+.nw-group.nw-beat-sep    { margin-left: 8px; }
+.nw-group.nw-measure-sep { margin-left: 16px; border-left: 2px solid #50585c; padding-left: 2px; }
+
+.nw-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  background: #2a261f;
+  border: 1px solid #50585c;
+  border-radius: 5px;
+  padding: 5px 4px 4px;
+  flex-shrink: 0;
+  transition: border-color 0.12s;
+}
+
+.nw-card:hover {
+  border-color: #db8a23;
+}
+
+.nw-note-label {
+  font-size: 9px;
+  font-weight: 600;
+  color: #a09078;
+  font-family: ui-monospace, 'Cascadia Code', monospace;
+  letter-spacing: 0.02em;
+}
+
+.nw-wave {
+  display: block;
+}
+
+.nw-wave path {
+  fill: none;
+  stroke: #db8a23;
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+/* ── Waveform display ── */
+.mb-wave-panel {
+  border-top: 1px solid #50585c;
+  padding: 12px 20px 16px;
+  flex-shrink: 0;
+}
+
+/* ── Step waveforms + note breakdown ── */
+.bw-panel {
+  border-top: 1px solid #50585c;
+  padding: 10px 20px 16px;
+  flex-shrink: 0;
+}
+
+.bw-header {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: #86755e;
+  margin-bottom: 8px;
+}
+
+.bw-row {
+  display: flex;
+  gap: 2px;
+  overflow-x: auto;
+  align-items: flex-start;
+  scrollbar-width: thin;
+  scrollbar-color: #86755e transparent;
+  padding-bottom: 6px;
+}
+
+.bw-row::-webkit-scrollbar {
+  height: 3px;
+}
+
+.bw-row::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.bw-row::-webkit-scrollbar-thumb {
+  background: #86755e;
+  border-radius: 2px;
+}
+
+.bw-row::-webkit-scrollbar-thumb:hover {
+  background: #a09078;
+}
+
+/* One vertical column per 16th-note step */
+.bw-col {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex-shrink: 0;
+}
+
+.bw-col.bw-col-measure {
+  margin-left: 10px;
+}
+
+.bw-col.bw-col-beat {
+  margin-left: 5px;
+}
+
+/* Composite waveform card */
+.bw-card {
+  width: 88px;
+  background: #2a261f;
+  border: 1px solid #50585c;
+  border-top-width: 2px;
+  border-radius: 4px;
+  padding: 4px 4px 3px;
+  box-sizing: border-box;
+}
+
+/* Beat group accent colors — M1 = 4 blues, M2 = 4 ambers (cycles per measure) */
+.bw-beat-0 .bw-card { border-top-color: #51aadb; }
+.bw-beat-1 .bw-card { border-top-color: #8bc8e8; }
+.bw-beat-2 .bw-card { border-top-color: #60879c; }
+.bw-beat-3 .bw-card { border-top-color: #3580b5; }
+.bw-beat-4 .bw-card { border-top-color: #db8a23; }
+.bw-beat-5 .bw-card { border-top-color: #f0a830; }
+.bw-beat-6 .bw-card { border-top-color: #b86815; }
+.bw-beat-7 .bw-card { border-top-color: #e0c060; }
+
+.bw-label {
+  font-size: 8px;
+  font-weight: 600;
+  color: #86755e;
+  text-align: center;
+  margin-bottom: 2px;
+  font-family: ui-monospace, 'Cascadia Code', monospace;
+  line-height: 1;
+}
+
+.bw-beat-0 .bw-label { color: #51aadb; }
+.bw-beat-1 .bw-label { color: #8bc8e8; }
+.bw-beat-2 .bw-label { color: #60879c; }
+.bw-beat-3 .bw-label { color: #3580b5; }
+.bw-beat-4 .bw-label { color: #db8a23; }
+.bw-beat-5 .bw-label { color: #f0a830; }
+.bw-beat-6 .bw-label { color: #b86815; }
+.bw-beat-7 .bw-label { color: #e0c060; }
+
+.bw-wave {
+  display: block;
+  width: 100%;
+  height: 56px;
+}
+
+.bw-wave path {
+  fill: none;
+  stroke: rgb(81, 170, 219);
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.bw-card.bw-empty .bw-wave path {
+  stroke: rgba(81, 170, 219, 0.12);
+}
+
+/* Individual note cards below the composite */
+.bw-note-card {
+  width: 88px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  background: #2a261f;
+  border: 1px solid #332e27;
+  border-radius: 4px;
+  padding: 3px 4px;
+  box-sizing: border-box;
+}
+
+.bw-note-name {
+  font-size: 8px;
+  font-weight: 600;
+  color: #a09078;
+  font-family: ui-monospace, 'Cascadia Code', monospace;
+  line-height: 1;
+}
+
+.bw-note-wave {
+  display: block;
+  width: 100%;
+  height: 28px;
+}
+
+.bw-note-wave path {
+  fill: none;
+  stroke: #db8a23;
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.mb-wave-canvas {
+  display: block;
+  width: 100%;
+  height: 100px;
+  background: #17140e;
+  border-radius: 6px;
+  border: 1px solid #332e27;
+}

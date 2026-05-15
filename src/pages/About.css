@@ -1,0 +1,199 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+.about-page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+}
+
+/* Header */
+.about-header {
+  margin-bottom: 3.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid var(--color-primary);
+}
+
+.about-title {
+  font-size: 3rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  margin-bottom: 0.75rem;
+}
+
+.about-tagline {
+  font-size: 1.05rem;
+  color: #555;
+  max-width: 600px;
+}
+
+/* Sections */
+.about-section {
+  margin-bottom: 3rem;
+}
+
+.section-heading {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #ebebeb;
+}
+
+/* Profile */
+.about-bio {
+  font-size: 1rem;
+  line-height: 1.8;
+  color: #333;
+  max-width: 720px;
+}
+
+/* Skills */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1rem;
+}
+
+.skill-category {
+  padding: 1rem 1.25rem;
+  border-left: 3px solid;
+  background: #fafafa;
+}
+
+.skill-category--primary       { border-color: var(--color-primary); }
+.skill-category--accent         { border-color: var(--color-accent); }
+.skill-category--highlight      { border-color: var(--color-highlight); }
+.skill-category--primary-light  { border-color: var(--color-primary-light); }
+
+.skill-category-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #999;
+  margin-bottom: 0.75rem;
+}
+
+.skill-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  list-style: none;
+}
+
+.skill-chip {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.76rem;
+  padding: 0.2rem 0.55rem;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 3px;
+  color: var(--color-text);
+}
+
+/* Education */
+.education-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.education-entry {
+  display: grid;
+  grid-template-columns: 170px 1fr;
+  gap: 1.25rem;
+}
+
+.education-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding-top: 0.1rem;
+}
+
+.education-period {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.75rem;
+  color: #888;
+}
+
+.education-gpa {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--color-primary);
+}
+
+.education-school {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.2rem;
+}
+
+.education-degree {
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 0.75rem;
+}
+
+.education-notes {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.education-notes li {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.72rem;
+  padding: 0.2rem 0.5rem;
+  background: #f0f7ff;
+  border-radius: 3px;
+  color: #444;
+}
+
+/* Focus Areas */
+.focus-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 1rem;
+}
+
+.focus-card {
+  padding: 1.25rem;
+  border: 1px solid #e8e8e8;
+  border-top: 3px solid var(--color-accent);
+}
+
+.focus-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.focus-desc {
+  font-size: 0.85rem;
+  color: #666;
+  line-height: 1.65;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .about-title {
+    font-size: 2.25rem;
+  }
+
+  .education-entry {
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+  }
+
+  .education-meta {
+    flex-direction: row;
+    gap: 1rem;
+  }
+}
