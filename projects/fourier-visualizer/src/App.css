@@ -42,8 +42,22 @@ nav a.active {
   color: #51aadb;
 }
 
-.nav-byline {
+.nav-portfolio-link {
   margin-left: auto;
+  font-size: 12px;
+  color: #50585c;
+  text-decoration: none;
+  padding: 5px 10px;
+  border-radius: 6px;
+  transition: color 0.15s, background 0.15s;
+}
+
+.nav-portfolio-link:hover {
+  color: #e8d8be;
+  background: #332e27;
+}
+
+.nav-byline {
   font-size: 12px;
   color: #50585c;
   padding-right: 4px;

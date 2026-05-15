@@ -11,6 +11,10 @@ function Layout() {
         <NavLink to="/">Home</NavLink>
         <NavLink to="/visualizer">Visualizer</NavLink>
         <NavLink to="/music-box">Music Box</NavLink>
+        <a
+          href="https://collin-giles-portfolio.vercel.app/"
+          className="nav-portfolio-link"
+        >← Portfolio</a>
         <span className="nav-byline">By Collin Giles</span>
       </nav>
       <main>
