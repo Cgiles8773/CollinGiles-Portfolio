@@ -138,3 +138,24 @@
   line-height: 1.75;
   max-width: 560px;
 }
+
+/* ── Game mode ──────────────────────────────── */
+
+/* Shapes become individually interactive; parent pointer-events stay none */
+.home-page.game-mode .home-deco { pointer-events: none; }
+
+.home-page.game-mode [data-draggable] {
+  pointer-events: auto;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+}
+
+.home-page.game-mode [data-draggable]:active {
+  cursor: grabbing;
+}
+
+/* Smooth snap-back when game mode is turned off */
+.physics-snapping {
+  transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
