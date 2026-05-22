@@ -1,0 +1,140 @@
+.home-page {
+  position: relative;
+  overflow: hidden;
+  min-height: calc(100vh - 60px);
+}
+
+/* ── Decoration layer ───────────────────────── */
+.home-deco {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.deco { position: absolute; }
+
+/* Large pink circle — top right corner */
+.deco--pink-circle-tr {
+  width: 340px;
+  height: 340px;
+  border-radius: 50%;
+  background: var(--color-highlight);
+  top: -120px;
+  right: -120px;
+}
+
+/* Orange rectangle — bottom left corner, slightly rotated */
+.deco--orange-rect-bl {
+  width: 210px;
+  height: 290px;
+  border-radius: 6px;
+  background: var(--color-accent);
+  bottom: -70px;
+  left: -65px;
+  transform: rotate(-10deg);
+}
+
+/* Small orange circle — left margin, mid height */
+.deco--orange-circle-ml {
+  width: 82px;
+  height: 82px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  left: 28px;
+  top: 42%;
+}
+
+/* Orange horizontal bar — right margin */
+.deco--pink-bar-mr {
+  width: 190px;
+  height: 58px;
+  border-radius: 5px;
+  background: var(--color-accent);
+  right: -55px;
+  top: 58%;
+}
+
+/* Blue circle — bottom right */
+.deco--blue-circle-br {
+  width: 190px;
+  height: 190px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  bottom: -55px;
+  right: 100px;
+}
+
+/* Blue arc — left margin */
+.deco--blue-arc {
+  width: 160px;
+  height: 650px;
+  left: -25px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Orange right triangles — 2×3 grid, offset from corner */
+.deco--triangle-tl {
+  width: 76px;
+  height: 114px;
+  top: 36px;
+  left: 36px;
+}
+
+/* Pink quarter-circle arc — right margin */
+.deco--quarter-circle-rm {
+  width: 153px;
+  height: 153px;
+  right: -28px;
+  top: 25%;
+}
+
+/* Orange squiggle — bottom center */
+.deco--squiggle {
+  width: 504px;
+  height: 124px;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Hide decoration on small screens where there are no margins */
+@media (max-width: 768px) {
+  .home-deco { display: none; }
+}
+
+/* ── Content ────────────────────────────────── */
+.home-content {
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.home-hero {
+  padding-top: 5rem;
+}
+
+.home-greeting {
+  font-size: 1.1rem;
+  color: var(--color-highlight);
+  margin-bottom: 0.25rem;
+}
+
+.home-name {
+  font-size: clamp(3rem, 10vw, 6rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--color-primary);
+  margin-bottom: 1.5rem;
+}
+
+.home-blurb {
+  font-size: 1.15rem;
+  color: #444;
+  line-height: 1.75;
+  max-width: 560px;
+}

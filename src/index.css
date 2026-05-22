@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
 :root {
   /* Primary - Blues */
   --color-primary:       #48A4E6;
@@ -11,7 +13,7 @@
   --color-highlight:     #FF5076;
 
   /* Neutrals */
-  --color-bg:            #ffffff;
+  --color-bg:            #FFF9EE;
   --color-text:          #1a1a1a;
 }
 
@@ -24,5 +26,5 @@
 body {
   background-color: var(--color-bg);
   color: var(--color-text);
-  font-family: sans-serif;
+  font-family: 'Courier Prime', monospace;
 }
