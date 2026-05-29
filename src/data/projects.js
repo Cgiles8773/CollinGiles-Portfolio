@@ -7,6 +7,14 @@ const projects = [
     tech: ['React', 'JavaScript'],
     liveUrl: 'https://collin-giles-portfolio-1dkp.vercel.app/',
   },
+  {
+    slug: 'hubble',
+    title: 'Hubble',
+    description: 'Hubble is a reading app that encourages self reflection, closer communities, and strips out the endless scroll found in similar apps like Goodreads. Note: Hubble is my capstone project, and is still under development.',
+    image: new URL('../assets/hubble.png', import.meta.url).href,
+    tech: ['React', 'JavaScript'],
+    liveUrl: 'https://readhubble.expo.app/',
+  },
 ]
 
 export default projects

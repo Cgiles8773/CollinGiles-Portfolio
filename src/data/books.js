@@ -34,10 +34,10 @@ const books = [
   {
     title: 'Veniss Underground',
     author: 'Alex Vandermeer',
-    cover: '',
-    summary: '',
-    review: '',
-    tags: ['Fiction', 'Science Fiction'],
+    cover: 'https://ia601909.us.archive.org/view_archive.php?archive=/31/items/l_covers_0013/l_covers_0013_79.zip&file=0013794666-L.jpg',
+    summary: 'In the city of Veniss, the wannabe bioengineering artist Nicholas goes missing, after making a shady underground deal. His twin sister, and her ex-lover descend below the surface of the city in search of him. ',
+    review: 'Growing up I would read a ton of SCP foundation articles online, which gave me a huge appetite for surreal, dark stories. This book scratches that itch perfectly - Its a dive into a bizzare, malformed world. Theres a standout chapter, that is so gross and visceral I had to pause midway through reading. Compared to the Southern Reach series by Vandermeer, I found this novel to be much more affecting, and satisfying.',
+    tags: ['Fiction', 'Science Fiction', 'Surreal'],
   },
 ]
 
