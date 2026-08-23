@@ -159,3 +159,8 @@
 .physics-snapping {
   transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
+
+/* Smooth snap-back when wiggle mode is turned off */
+.wiggle-snapping {
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}

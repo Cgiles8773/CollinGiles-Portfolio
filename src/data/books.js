@@ -1,4 +1,4 @@
-const books = [
+/*  
   {
     title: 'Example Book Title',
     author: 'Author Name',
@@ -7,6 +7,8 @@ const books = [
     review: 'Your personal thoughts on the book go here.',
     tags: ['Fiction'],
   },
+*/
+const books = [
   {
     title: 'Dune',
     author: 'Frank Herbert',

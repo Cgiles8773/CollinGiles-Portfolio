@@ -1,18 +1,24 @@
 import { useEffect } from 'react'
 
-const NS             = 'http://www.w3.org/2000/svg'
-const CANVAS_SCALE   = 0.25
-const DISP_SCALE     = 90
-const PAINT_AMP      = 110
-const PAINT_RADIUS   = 7      // canvas px (~28 viewport px)
-const SPEED_SCALE    = 700
-const DECAY          = 0.016  // per-frame blend toward neutral (~3 s full reform)
-const VEL_SMOOTH     = 0.22   // how fast smooth velocity tracks raw (0=frozen, 1=instant)
-const VEL_DECAY      = 0.80   // per-frame decay of velocity when no events arrive
-const NEUTRAL        = 128
-const FILTER_MARGIN  = 110    // must stay >= DISP_SCALE so displaced pixels aren't clipped
+const RADIUS             = 240   // px — cursor influence falloff radius
+const PUSH_ACCEL         = 3.2   // how strongly cursor velocity accelerates offset (per second)
+const SPRING_K           = 90    // spring constant pulling offset back to rest
+const DAMPING            = 12    // velocity damping
+const ROT_ACCEL          = 1.0   // how strongly lateral cursor velocity accelerates rotation (per second)
+const ROT_SPRING_K       = 60
+const ROT_DAMPING        = 9
+const MAX_OFFSET         = 34    // px
+const MAX_ROT            = 14    // deg
+const VEL_SMOOTH         = 0.25  // EMA smoothing for raw cursor velocity
+const VEL_DECAY          = 0.85  // per-frame decay of smoothed velocity when cursor stops
+const RESIZE_DEBOUNCE_MS = 180
 
-function clamp1(v) { return v < -1 ? -1 : v > 1 ? 1 : v }
+function clamp(v, min, max) { return v < min ? min : v > max ? max : v }
+
+function smoothstep(edge0, edge1, x) {
+  const t = clamp((x - edge0) / (edge1 - edge0), 0, 1)
+  return t * t * (3 - 2 * t)
+}
 
 export default function WiggleLayer({ isActive }) {
   useEffect(() => {
@@ -21,79 +27,59 @@ export default function WiggleLayer({ isActive }) {
     const targets = [...document.querySelectorAll('[data-wobble]')]
     if (!targets.length) return
 
-    const vw = window.innerWidth
-    const vh = window.innerHeight
-    const cw = Math.ceil(vw * CANVAS_SCALE)
-    const ch = Math.ceil(vh * CANVAS_SCALE)
-
-    // ── Displacement canvas ──────────────────────────────────────────
-    const canvas = document.createElement('canvas')
-    canvas.width  = cw
-    canvas.height = ch
-    const ctx = canvas.getContext('2d')
-    ctx.fillStyle = `rgb(${NEUTRAL},${NEUTRAL},0)`
-    ctx.fillRect(0, 0, cw, ch)
-
-    // ── SVG + one filter per element ────────────────────────────────
-    // primitiveUnits="userSpaceOnUse" on CSS-filtered HTML elements uses
-    // element-local coords (0,0 = element top-left). Each feImage is offset
-    // by (-rect.left, -rect.top) so the viewport-coord canvas aligns correctly.
-    const svg = document.createElementNS(NS, 'svg')
-    svg.style.cssText = 'position:fixed;width:0;height:0;overflow:hidden;pointer-events:none'
-    const defs = document.createElementNS(NS, 'defs')
-
-    const feImgs = []
-
-    targets.forEach((el, i) => {
-      const rect = el.getBoundingClientRect()
-
-      const filter = document.createElementNS(NS, 'filter')
-      filter.setAttribute('id',      `wiggle-disp-${i}`)
-      filter.setAttribute('filterUnits',   'userSpaceOnUse')
-      filter.setAttribute('primitiveUnits','userSpaceOnUse')
-      filter.setAttribute('x',      String(-FILTER_MARGIN))
-      filter.setAttribute('y',      String(-FILTER_MARGIN))
-      filter.setAttribute('width',  String(rect.width  + FILTER_MARGIN * 2))
-      filter.setAttribute('height', String(rect.height + FILTER_MARGIN * 2))
-      filter.setAttribute('color-interpolation-filters', 'sRGB')
-
-      const feImg = document.createElementNS(NS, 'feImage')
-      feImg.setAttribute('x',                   String(-rect.left))
-      feImg.setAttribute('y',                   String(-rect.top))
-      feImg.setAttribute('width',               String(vw))
-      feImg.setAttribute('height',              String(vh))
-      feImg.setAttribute('preserveAspectRatio', 'none')
-      feImg.setAttribute('result',              'disp_map')
-
-      const feDisp = document.createElementNS(NS, 'feDisplacementMap')
-      feDisp.setAttribute('in',               'SourceGraphic')
-      feDisp.setAttribute('in2',              'disp_map')
-      feDisp.setAttribute('scale',            String(DISP_SCALE))
-      feDisp.setAttribute('xChannelSelector', 'R')
-      feDisp.setAttribute('yChannelSelector', 'G')
-      feDisp.setAttribute('color-interpolation-filters', 'sRGB')
-
-      filter.appendChild(feImg)
-      filter.appendChild(feDisp)
-      defs.appendChild(filter)
-      feImgs.push(feImg)
-
-      el.style.filter = `url(#wiggle-disp-${i})`
+    // Some shapes carry their own baseline transform from CSS (e.g. the blue
+    // arc's translateY(-50%), the orange rect's rotate(-10deg), the squiggle's
+    // translateX(-50%)). Capture it once, before we ever touch inline style,
+    // so it can be composed back in every frame instead of being clobbered.
+    const states = targets.map(el => {
+      const computed = getComputedStyle(el).transform
+      return {
+        el,
+        baseTransform: computed === 'none' ? '' : computed,
+        restCenterX: 0, restCenterY: 0,
+        measuredScrollX: 0, measuredScrollY: 0,
+        offsetX: 0, offsetY: 0,
+        velX: 0, velY: 0,
+        rot: 0, angVel: 0,
+      }
     })
 
-    svg.appendChild(defs)
-    document.body.appendChild(svg)
+    // Measure each element's rest-position center with any wiggle-applied
+    // inline transform cleared (falling back to its CSS baseline transform,
+    // not stripping transform entirely), so we capture true layout position
+    // rather than a currently-applied wiggle offset. Re-run on resize so
+    // geometry never goes stale.
+    function measureAll() {
+      const scrollX = window.scrollX
+      const scrollY = window.scrollY
+      for (const s of states) {
+        const prevTransform = s.el.style.transform
+        s.el.style.transform = ''
+        const rect = s.el.getBoundingClientRect()
+        s.el.style.transform = prevTransform
+        s.restCenterX = rect.left + rect.width / 2
+        s.restCenterY = rect.top + rect.height / 2
+        s.measuredScrollX = scrollX
+        s.measuredScrollY = scrollY
+      }
+    }
+    measureAll()
+
+    let resizeTimer = null
+    const onResize = () => {
+      clearTimeout(resizeTimer)
+      resizeTimer = setTimeout(measureAll, RESIZE_DEBOUNCE_MS)
+    }
+    window.addEventListener('resize', onResize)
+    window.addEventListener('orientationchange', onResize)
 
     // ── Cursor tracking ──────────────────────────────────────────────
-    // getCoalescedEvents() exposes sub-frame pointer samples; raw velocity
-    // between adjacent samples is noisy (tiny dt), so we smooth it via
-    // an exponential moving average (smoothVx/smoothVy) before painting.
     const pending = []
-    let lastPos   = null   // last processed event — used as prev for next batch
-    let smoothVx  = 0
-    let smoothVy  = 0
-    let energy    = 0
-    let raf       = null
+    let lastPos  = null
+    let smoothVx = 0
+    let smoothVy = 0
+    let cursorX  = -Infinity
+    let cursorY  = -Infinity
 
     const onPointerMove = e => {
       const events = (e.getCoalescedEvents ? e.getCoalescedEvents() : null) || [e]
@@ -103,66 +89,79 @@ export default function WiggleLayer({ isActive }) {
     }
     window.addEventListener('pointermove', onPointerMove)
 
-    function tick() {
-      const batch = pending.splice(0)
-      const moved = batch.length > 0
+    let raf = null
+    let lastTs = null
 
-      if (!moved) {
+    function tick(ts) {
+      const dt = lastTs != null ? Math.min((ts - lastTs) / 1000, 0.033) : 0.016
+      lastTs = ts
+
+      const batch = pending.splice(0)
+      for (const pt of batch) {
+        const prev = lastPos || pt
+        const sdt  = Math.max((pt.t - prev.t) / 1000, 0.001)
+        const rawVx = (pt.x - prev.x) / sdt
+        const rawVy = (pt.y - prev.y) / sdt
+        smoothVx += (rawVx - smoothVx) * VEL_SMOOTH
+        smoothVy += (rawVy - smoothVy) * VEL_SMOOTH
+        lastPos = pt
+        cursorX = pt.x
+        cursorY = pt.y
+      }
+      if (!batch.length) {
         smoothVx *= VEL_DECAY
         smoothVy *= VEL_DECAY
       }
-      energy *= (1 - DECAY)
 
-      if (energy > 0.5 || moved) {
-        // Blend canvas toward neutral
-        ctx.save()
-        ctx.globalAlpha = DECAY
-        ctx.fillStyle = `rgb(${NEUTRAL},${NEUTRAL},0)`
-        ctx.fillRect(0, 0, cw, ch)
-        ctx.restore()
+      const scrollDX = window.scrollX
+      const scrollDY = window.scrollY
 
-        // One stroke per coalesced sample, each updating the smoothed velocity
-        for (const pt of batch) {
-          const prev  = lastPos || pt
-          const dt    = Math.max((pt.t - prev.t) / 1000, 0.001)
-          const rawVx = (pt.x - prev.x) / dt
-          const rawVy = (pt.y - prev.y) / dt
+      for (const s of states) {
+        const liveCenterX = s.restCenterX - (scrollDX - s.measuredScrollX)
+        const liveCenterY = s.restCenterY - (scrollDY - s.measuredScrollY)
 
-          // Low-pass filter: smooth velocity tracks raw, removes timing noise
-          smoothVx += (rawVx - smoothVx) * VEL_SMOOTH
-          smoothVy += (rawVy - smoothVy) * VEL_SMOOTH
+        const dx   = liveCenterX - cursorX
+        const dy   = liveCenterY - cursorY
+        const dist = Math.hypot(dx, dy)
+        const influence = 1 - smoothstep(0, RADIUS, dist)
 
-          energy  = Math.min(PAINT_AMP, energy + Math.hypot(rawVx, rawVy) * 0.04)
-          lastPos = pt
-
-          const cx   = pt.x * CANVAS_SCALE
-          const cy   = pt.y * CANVAS_SCALE
-          const r    = Math.round(NEUTRAL - clamp1(smoothVx / SPEED_SCALE) * PAINT_AMP)
-          const g    = Math.round(NEUTRAL - clamp1(smoothVy / SPEED_SCALE) * PAINT_AMP)
-          const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, PAINT_RADIUS)
-          grad.addColorStop(0,   `rgb(${r},${g},0)`)
-          grad.addColorStop(0.5, `rgb(${r},${g},0)`)
-          grad.addColorStop(1,   `rgb(${NEUTRAL},${NEUTRAL},0)`)
-          ctx.fillStyle = grad
-          ctx.beginPath()
-          ctx.arc(cx, cy, PAINT_RADIUS, 0, Math.PI * 2)
-          ctx.fill()
+        if (influence > 0) {
+          s.velX += smoothVx * influence * PUSH_ACCEL * dt
+          s.velY += smoothVy * influence * PUSH_ACCEL * dt
+          s.angVel += smoothVx * influence * ROT_ACCEL * dt
         }
 
-        const dataUrl = canvas.toDataURL('image/png')
-        feImgs.forEach(fi => fi.setAttribute('href', dataUrl))
+        s.velX += (-SPRING_K * s.offsetX - DAMPING * s.velX) * dt
+        s.velY += (-SPRING_K * s.offsetY - DAMPING * s.velY) * dt
+        s.offsetX = clamp(s.offsetX + s.velX * dt, -MAX_OFFSET, MAX_OFFSET)
+        s.offsetY = clamp(s.offsetY + s.velY * dt, -MAX_OFFSET, MAX_OFFSET)
+
+        s.angVel += (-ROT_SPRING_K * s.rot - ROT_DAMPING * s.angVel) * dt
+        s.rot = clamp(s.rot + s.angVel * dt, -MAX_ROT, MAX_ROT)
+
+        s.el.style.transform = `translate(${s.offsetX.toFixed(2)}px,${s.offsetY.toFixed(2)}px) rotate(${s.rot.toFixed(2)}deg) ${s.baseTransform}`
       }
 
       raf = requestAnimationFrame(tick)
     }
-
     raf = requestAnimationFrame(tick)
 
     return () => {
       cancelAnimationFrame(raf)
+      clearTimeout(resizeTimer)
       window.removeEventListener('pointermove', onPointerMove)
-      targets.forEach(el => { el.style.filter = '' })
-      if (svg.parentNode) document.body.removeChild(svg)
+      window.removeEventListener('resize', onResize)
+      window.removeEventListener('orientationchange', onResize)
+
+      for (const s of states) {
+        s.el.classList.add('wiggle-snapping')
+        s.el.style.transform = ''
+        const onEnd = () => {
+          s.el.classList.remove('wiggle-snapping')
+          s.el.removeEventListener('transitionend', onEnd)
+        }
+        s.el.addEventListener('transitionend', onEnd)
+      }
     }
   }, [isActive])
 
