@@ -1,0 +1,22 @@
+.mode-hint {
+  position: fixed;
+  bottom: 7.5rem;
+  right: 1.5rem;
+  z-index: 1000;
+  max-width: 220px;
+  font-family: 'Courier Prime', monospace;
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 0.6rem 0.9rem;
+  background: var(--color-bg);
+  color: var(--color-primary);
+  border: 2px solid var(--color-primary);
+  border-radius: 4px;
+  letter-spacing: 0.03em;
+  line-height: 1.4;
+  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .mode-hint { display: none; }
+}

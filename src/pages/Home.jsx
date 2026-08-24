@@ -4,6 +4,7 @@ import DraggableShape from '../components/DraggableShape'
 import GameModeButton from '../components/GameModeButton'
 import WiggleModeButton from '../components/WiggleModeButton'
 import WiggleLayer from '../components/WiggleLayer'
+import ModeHint from '../components/ModeHint'
 import './Home.css'
 
 function HomeDeco({ isGameMode }) {
@@ -99,6 +100,8 @@ export default function Home() {
         </div>
       </div>
       <WiggleLayer isActive={wiggleMode} />
+      <ModeHint active={gameMode}>Try clicking and dragging the shapes!</ModeHint>
+      <ModeHint active={wiggleMode}>Try moving your mouse around!</ModeHint>
       <WiggleModeButton active={wiggleMode} onToggle={toggleWiggle} />
       <GameModeButton active={gameMode} onToggle={toggleGame} />
     </main>

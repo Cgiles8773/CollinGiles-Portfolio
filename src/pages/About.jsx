@@ -9,17 +9,17 @@ const skillCategories = [
   {
     label: 'Web & Frameworks',
     accent: 'accent',
-    items: ['React', 'React Native', 'Django', 'FastAPI', '.NET', 'HTML', 'CSS', 'PHP'],
+    items: ['React', 'React Native', 'Expo', 'Flutter', 'Django', 'FastAPI', '.NET', 'Tailwind', 'Bootstrap', 'HTML', 'CSS', 'PHP'],
   },
   {
     label: 'Databases',
     accent: 'highlight',
-    items: ['MySQL', 'Supabase', 'MongoDB', 'Firebase'],
+    items: ['MySQL', 'PostgreSQL', 'Supabase', 'MongoDB', 'Firebase'],
   },
   {
     label: 'Cloud & Tools',
     accent: 'primary-light',
-    items: ['AWS', 'Git', 'Linux', 'Expo', 'Vercel'],
+    items: ['AWS', 'Git', 'Linux', 'Vercel', 'Visual Studio', 'Android Studio', '.NET MAUI'],
   },
   {
     label: 'Cybersecurity',
@@ -37,24 +37,40 @@ const education = [
   {
     school: 'University of Utah',
     degree: 'B.S. Computer Science, Math Minor',
-    period: 'Jan 2023 – Dec 2026',
-    gpa: '3.66',
+    period: 'Jan 2023 – Anticipated Dec 2026',
+    gpa: '3.69',
     notes: [
-      'Algorithms & Data Structures',
+      'Senior Capstone',
+      'Software Development',
+      'Mobile App Development',
+      'Web Development',
       'Database Systems',
-      'Web & Mobile Development',
-      'Computer Security',
-      'Computer Architecture',
+      'Computer Organization',
+      'Algorithms & Data Structures',
     ],
   },
   {
     school: 'Salt Lake Community College',
-    degree: 'A.S. Computer Science & Information Systems',
+    degree: 'A.S. Computer Science',
     period: 'Aug 2021 – Aug 2023',
     gpa: '4.0',
     notes: [
-      "President's List — High Honors",
-      'Certificate: Web Programming & Development',
+      "President's List",
+      'Summa Cum Laude',
+    ],
+  },
+]
+
+const experience = [
+  {
+    company: 'Old Spaghetti Factory',
+    role: 'Supervisor',
+    location: 'Taylorsville, UT',
+    period: 'Jul 2019 – Present',
+    notes: [
+      'Ensured a quality guest experience during high-volume hours',
+      'Operated the restaurant floor, assisting team members and troubleshooting in real time',
+      'Led and coached team members, with a focus on conflict resolution',
     ],
   },
 ]
@@ -93,10 +109,10 @@ export default function About() {
         <p className="about-bio">
           I build full-stack, mobile, and cloud-deployed applications with a focus on clean
           architecture and secure design. Currently pursuing a B.S. in Computer Science at the
-          University of Utah (3.66 GPA), with hands-on experience across the full stack — from
-          Django backends on AWS to React Native frontends with Supabase. Outside of code, I've
-          spent five-plus years leading teams of 20+ in high-volume environments, which shapes how
-          I think about systems, communication, and accountability.
+          University of Utah (3.69 GPA), with hands-on experience across the full stack — from
+          FastAPI and Django backends to React and Expo/React Native frontends with Supabase.
+          Outside of code, I've spent seven-plus years as a restaurant supervisor, which shapes how
+          I think about systems, communication, and accountability under pressure.
         </p>
       </section>
 
@@ -129,6 +145,27 @@ export default function About() {
                 <h3 className="education-school">{school}</h3>
                 <p className="education-degree">{degree}</p>
                 <ul className="education-notes">
+                  {notes.map(n => <li key={n}>{n}</li>)}
+                </ul>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="about-section">
+        <h2 className="section-heading">Experience</h2>
+        <div className="experience-list">
+          {experience.map(({ company, role, location, period, notes }) => (
+            <div key={company} className="experience-entry">
+              <div className="education-meta">
+                <span className="education-period">{period}</span>
+                <span className="education-gpa">{location}</span>
+              </div>
+              <div className="education-body">
+                <h3 className="education-school">{company}</h3>
+                <p className="education-degree">{role}</p>
+                <ul className="experience-notes">
                   {notes.map(n => <li key={n}>{n}</li>)}
                 </ul>
               </div>
