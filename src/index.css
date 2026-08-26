@@ -28,3 +28,7 @@ body {
   color: var(--color-text);
   font-family: 'Courier Prime', monospace;
 }
+
+body.no-select {
+  user-select: none;
+}

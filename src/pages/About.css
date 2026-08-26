@@ -4,6 +4,7 @@
   max-width: 1100px;
   margin: 0 auto;
   padding: 3rem 2rem;
+  user-select: none;
 }
 
 /* Header */
@@ -33,7 +34,7 @@
 }
 
 .section-heading {
-  font-size: 0.7rem;
+  font-size: 1rem;
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;

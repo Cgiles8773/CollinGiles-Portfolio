@@ -1,0 +1,55 @@
+.boids-hint {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid var(--color-primary);
+  background: var(--color-bg);
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font: 700 15px/1 'Courier Prime', monospace;
+  cursor: default;
+  user-select: none;
+  transition: background 0.15s, color 0.15s;
+}
+
+.boids-hint:hover,
+.boids-hint:focus-visible {
+  background: var(--color-primary);
+  color: #fff;
+  outline: none;
+}
+
+.boids-hint-tooltip {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 10px);
+  width: 210px;
+  padding: 0.6rem 0.9rem;
+  border-radius: 4px;
+  border: 2px solid var(--color-primary);
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: 'Courier Prime', monospace;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(4px);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+  pointer-events: none;
+}
+
+.boids-hint:hover .boids-hint-tooltip,
+.boids-hint:focus-visible .boids-hint-tooltip,
+.boids-hint--intro .boids-hint-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.boids-hint-tooltip strong {
+  color: var(--color-primary);
+}

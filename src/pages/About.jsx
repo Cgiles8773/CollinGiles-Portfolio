@@ -1,4 +1,8 @@
+import { useEffect, useState } from 'react'
 import './About.css'
+import BoidsBackground from '../components/BoidsBackground'
+import BoidsControls from '../components/BoidsControls'
+import { getHighScore, setHighScore } from '../lib/highScore.js'
 
 const skillCategories = [
   {
@@ -95,8 +99,44 @@ const focusAreas = [
 ]
 
 export default function About() {
+  const [gameActive, setGameActive] = useState(false)
+  const [highScore, setHighScoreValue] = useState(() => getHighScore())
+
+  useEffect(() => {
+    if (!gameActive) return
+    function onKeyDown(e) {
+      if (e.key === 'Escape') setGameActive(false)
+    }
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [gameActive])
+
+  useEffect(() => {
+    document.body.classList.toggle('no-select', gameActive)
+    return () => document.body.classList.remove('no-select')
+  }, [gameActive])
+
+  function handleGameEnd(finalScore) {
+    setGameActive(false)
+    setHighScoreValue(hs => {
+      if (finalScore > hs) {
+        setHighScore(finalScore)
+        return finalScore
+      }
+      return hs
+    })
+  }
+
   return (
     <div className="about-page">
+      <BoidsBackground gameActive={gameActive} onGameEnd={handleGameEnd} />
+      <BoidsControls
+        highScore={highScore}
+        gameActive={gameActive}
+        onPlayClick={() => setGameActive(a => !a)}
+      />
+      {!gameActive && (
+      <>
       <header className="about-header">
         <h1 className="about-title">About</h1>
         <p className="about-tagline">
@@ -185,6 +225,8 @@ export default function About() {
           ))}
         </div>
       </section>
+      </>
+      )}
     </div>
   )
 }
