@@ -46,7 +46,7 @@
   background: #f0f7ff;
   border: 1px solid #d0e8ff;
   border-radius: 3px;
-  color: var(--color-primary);
+  color: white;
 }
 
 .project-iframe {
