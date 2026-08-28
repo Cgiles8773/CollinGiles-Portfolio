@@ -22,6 +22,14 @@ const projects = [
     tech: ['React', 'JavaScript'],
     liveUrl: 'https://readhubble.expo.app/',
   },
+  {
+    slug: 'boids',
+    title: 'Boids',
+    description: 'A flocking simulation built with the classic Boids algorithm, rendered in browser. The first \'artificial life\' algorithm I\'ve implemented, and an example of the perfect screensaver.',
+    image: new URL('../assets/boids.png', import.meta.url).href,
+    tech: ['React', 'JavaScript', 'Canvas'],
+    liveUrl: 'https://boids-jade.vercel.app/',
+  },
 ]
 
 export default projects
