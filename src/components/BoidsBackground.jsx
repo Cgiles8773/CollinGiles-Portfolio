@@ -240,11 +240,18 @@ export default function BoidsBackground({ gameActive = false, onGameEnd }) {
     }
 
     let raf = null
+    let lastTime = null
     function step(now) {
+      let dt = 1
+      if (lastTime !== null) {
+        dt = Math.min((now - lastTime) / (1000 / 60), 3)
+      }
+      lastTime = now
+
       updateGame(now)
       const grid = buildGrid(boids, VISUAL_RANGE)
       for (const boid of boids) {
-        boid.update(grid, VISUAL_RANGE, mouse)
+        boid.update(grid, VISUAL_RANGE, mouse, dt)
       }
       draw(now)
       raf = requestAnimationFrame(step)
