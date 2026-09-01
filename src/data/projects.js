@@ -34,7 +34,7 @@ const projects = [
     slug: 'ascii-camera',
     title: 'ASCII Camera',
     description: 'An Ascii art generator, with adjustable parameters. This project was developed for fun over a couple of days, with all of the backend code written by hand. I plan to add edge aware characters, and even a real time camera filter.',
-    image: new URL('../assets/ascii-art.png'),
+    image: new URL('../assets/ascii-art.png', import.meta.url).href,
     tech: ['React', 'JavaScript', 'Canvas'],
     liveUrl: 'https://asciicamera-olive.vercel.app/',
   },
