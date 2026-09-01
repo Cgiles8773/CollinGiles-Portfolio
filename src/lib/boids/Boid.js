@@ -42,19 +42,19 @@ export class Boid {
         return boid;
     }
 
-    update(grid, cellSize, mouse)
+    update(grid, cellSize, mouse, dt = 1)
     {
         let neighbors = this.findNeighbors(grid, cellSize);
 
-        this.separation(neighbors[1]);
-        this.alignment(neighbors[0]);
-        this.cohesion(neighbors[0]);
-        this.marginCheck();
+        this.separation(neighbors[1], dt);
+        this.alignment(neighbors[0], dt);
+        this.cohesion(neighbors[0], dt);
+        this.marginCheck(dt);
         this.bias();
-        this.attract(mouse);
+        this.attract(mouse, dt);
         this.speedLimit();
-        this.x += this.vx;
-        this.y += this.vy;
+        this.x += this.vx * dt;
+        this.y += this.vy * dt;
         return this
     }
 
@@ -86,7 +86,7 @@ export class Boid {
         return [visualNeighbors, protNeighbors];
     }
 
-    separation(protNeighbors)
+    separation(protNeighbors, dt = 1)
     {
         if(protNeighbors.length == 0)
             return;
@@ -97,11 +97,11 @@ export class Boid {
             dx += this.x - boid.x;
             dy += this.y - boid.y;
         }
-        this.vx += dx*this.avoidFactor;
-        this.vy += dy*this.avoidFactor;
+        this.vx += dx*this.avoidFactor*dt;
+        this.vy += dy*this.avoidFactor*dt;
     }
 
-    alignment(visibleNeighbors)
+    alignment(visibleNeighbors, dt = 1)
     {
         if (visibleNeighbors.length == 0)
             return;
@@ -114,11 +114,11 @@ export class Boid {
         }
         vx_avg /= visibleNeighbors.length;
         vy_avg /= visibleNeighbors.length;
-        this.vx += (vx_avg - this.vx)*this.matchingFactor;
-        this.vy += (vy_avg - this.vy)*this.matchingFactor;
+        this.vx += (vx_avg - this.vx)*this.matchingFactor*dt;
+        this.vy += (vy_avg - this.vy)*this.matchingFactor*dt;
     }
 
-    cohesion(visibleNeighbors)
+    cohesion(visibleNeighbors, dt = 1)
     {
         if (visibleNeighbors.length == 0)
             return;
@@ -131,31 +131,31 @@ export class Boid {
         }
         x_avg /= visibleNeighbors.length;
         y_avg /= visibleNeighbors.length;
-        this.vx += (x_avg - this.x)*this.centeringFactor;
-        this.vy += (y_avg - this.y)*this.centeringFactor;
+        this.vx += (x_avg - this.x)*this.centeringFactor*dt;
+        this.vy += (y_avg - this.y)*this.centeringFactor*dt;
     }
 
-    marginCheck()
+    marginCheck(dt = 1)
     {
         if (this.x < this.leftMargin)
         {
-            this.vx += this.turnFactor;
+            this.vx += this.turnFactor*dt;
         }
         if (this.x > this.rightMargin)
         {
-            this.vx -= this.turnFactor;
+            this.vx -= this.turnFactor*dt;
         }
         if (this.y > this.bottomMargin)
         {
-            this.vy -= this.turnFactor;
+            this.vy -= this.turnFactor*dt;
         }
         if(this.y < this.topMargin)
         {
-            this.vy += this.turnFactor;
+            this.vy += this.turnFactor*dt;
         }
     }
 
-    attract(mouse)
+    attract(mouse, dt = 1)
     {
         if (!mouse || mouse.x === null)
             return;
@@ -166,8 +166,8 @@ export class Boid {
             const distSq = dx * dx + dy * dy;
             if (distSq > this.attractRange * this.attractRange)
                 return;
-            this.vx -= dx * this.attractFactor;
-            this.vy -= dy * this.attractFactor;
+            this.vx -= dx * this.attractFactor * dt;
+            this.vy -= dy * this.attractFactor * dt;
         }
         else
         {
@@ -176,8 +176,8 @@ export class Boid {
             const distSq = dx * dx + dy * dy;
             if (distSq > this.attractRange * this.attractRange)
                 return;
-            this.vx += dx * this.attractFactor;
-            this.vy += dy * this.attractFactor;
+            this.vx += dx * this.attractFactor * dt;
+            this.vy += dy * this.attractFactor * dt;
         }
     }
 
