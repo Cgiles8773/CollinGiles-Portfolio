@@ -49,6 +49,16 @@
   color: white;
 }
 
+.project-detail-skills {
+  margin-bottom: 0.75rem;
+}
+
+.project-detail-skills li {
+  background: var(--color-accent);
+  border: 1px solid var(--color-accent);
+  color: var(--color-text);
+}
+
 .project-iframe {
   display: block;
   width: 100%;
