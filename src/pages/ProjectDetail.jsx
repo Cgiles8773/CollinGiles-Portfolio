@@ -21,6 +21,11 @@ export default function ProjectDetail() {
         <Link to="/projects" className="back-link">← Projects</Link>
         <h1 className="project-detail-title">{project.title}</h1>
         <p className="project-detail-desc">{project.description}</p>
+        {project.skills && (
+          <ul className="project-detail-tech project-detail-skills">
+            {project.skills.map(s => <li key={s}>{s}</li>)}
+          </ul>
+        )}
         {project.tech && (
           <ul className="project-detail-tech">
             {project.tech.map(t => <li key={t}>{t}</li>)}

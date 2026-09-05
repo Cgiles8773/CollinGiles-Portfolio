@@ -75,6 +75,11 @@
   padding: 0.2rem 0.65rem;
 }
 
+.card-tag--skill {
+  background-color: var(--color-accent);
+  color: var(--color-text);
+}
+
 .card-link {
   align-self: flex-start;
   margin-top: 0.5rem;
