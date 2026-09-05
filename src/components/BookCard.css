@@ -23,14 +23,14 @@
 
 .book-cover img {
   display: block;
-  height: 150px;
+  height: 170px;
   width: auto;
 }
 
 .book-cover-placeholder {
   display: block;
-  width: 100px;
-  height: 150px;
+  width: 113px;
+  height: 170px;
   background: linear-gradient(160deg, var(--color-accent) 0%, var(--color-highlight) 100%);
 }
 
@@ -41,14 +41,14 @@
 }
 
 .book-title {
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   font-weight: 700;
   line-height: 1.3;
   color: var(--color-text);
 }
 
 .book-author {
-  font-size: 0.85rem;
+  font-size: 1rem;
   color: var(--color-primary);
   font-weight: 600;
 }
@@ -62,7 +62,7 @@
 }
 
 .book-tag {
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   font-weight: 600;
   letter-spacing: 0.05em;
   padding: 0.15rem 0.5rem;
@@ -88,7 +88,7 @@
 }
 
 .book-summary {
-  font-size: 0.875rem;
+  font-size: 1rem;
   color: #555;
   line-height: 1.65;
   margin-top: 0.25rem;
@@ -105,15 +105,15 @@
 }
 
 .book-review-label {
-  font-size: 0.65rem;
+  font-size: 0.9rem;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--color-accent);
+  color: #a15c00;
 }
 
 .book-review {
-  font-size: 0.9rem;
+  font-size: 1.05rem;
   color: #444;
   line-height: 1.75;
 }
