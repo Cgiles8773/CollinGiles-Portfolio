@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import './ProjectCard.css'
 
-export default function ProjectCard({ slug, title, description, image, tech, skills, liveUrl }) {
+export default function ProjectCard({ slug, title, description, image, tech, skills, liveUrl, repoUrl }) {
   const link = liveUrl
     ? <a href={liveUrl} target="_blank" rel="noopener noreferrer" className="card-link">View Project →</a>
     : <Link to={`/projects/${slug}`} className="card-link">View Project →</Link>
@@ -32,6 +32,9 @@ export default function ProjectCard({ slug, title, description, image, tech, ski
           </ul>
         )}
         {link}
+        {repoUrl && (
+          <a href={repoUrl} target="_blank" rel="noopener noreferrer" className="card-link card-link--repo">View Code →</a>
+        )}
       </div>
     </div>
   )

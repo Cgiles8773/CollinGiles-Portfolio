@@ -59,6 +59,19 @@
   color: var(--color-text);
 }
 
+.project-repo-link {
+  display: inline-block;
+  margin-bottom: 1.75rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.project-repo-link:hover {
+  text-decoration: underline;
+}
+
 .project-iframe {
   display: block;
   width: 100%;

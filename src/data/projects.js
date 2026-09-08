@@ -43,6 +43,16 @@ const projects = [
     skills: ['Image Processing', 'Real-Time Rendering', 'From-Scratch Algorithms'],
     liveUrl: 'https://asciicamera-olive.vercel.app/',
   },
+  {
+    slug: 'bitty-budget',
+    title: 'Bitty Budget',
+    description: 'A small single-page budgeting app for tracking a cash balance against recurring expenses, one-time costs, and paychecks. Everything runs client-side and persists to localStorage, with no backend or account system required.',
+    image: new URL('../assets/bitty-budget.png', import.meta.url).href,
+    tech: ['React', 'TypeScript', 'Vite', 'Recharts', 'Claude Code'],
+    skills: ['Personal Finance Tooling', 'Data Visualization', 'State Management', 'AI-Driven Development'],
+    liveUrl: 'https://bitty-budget.vercel.app/',
+    //repoUrl: 'https://github.com/Cgiles8773/Bitty-Budget',
+  },
 ]
 
 export default projects

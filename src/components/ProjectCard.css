@@ -93,3 +93,7 @@
 .card-link:hover {
   color: var(--color-highlight);
 }
+
+.card-link--repo {
+  margin-top: 0.15rem;
+}
