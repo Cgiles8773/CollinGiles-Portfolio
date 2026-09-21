@@ -31,6 +31,16 @@ export default function ProjectDetail() {
             {project.tech.map(t => <li key={t}>{t}</li>)}
           </ul>
         )}
+        {project.repoUrl && (
+          <a
+            href={project.repoUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="project-repo-link"
+          >
+            View Code ↗
+          </a>
+        )}
       </div>
 
       <div className="project-detail-embed">
