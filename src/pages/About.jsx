@@ -26,9 +26,9 @@ const skillCategories = [
     items: ['AWS', 'Git', 'Linux', 'Vercel', 'Visual Studio', 'Android Studio', '.NET MAUI'],
   },
   {
-    label: 'Cybersecurity',
+    label: 'Mathematics',
     accent: 'highlight',
-    items: ['Cryptography', 'Network Protocols', 'Attack / Defense', 'Secure App Design'],
+    items: ['Calculus I–III', 'Linear Algebra', 'Differential Equations', 'Real Analysis', 'Number Theory', 'Complex Variables'],
   },
   {
     label: 'Concepts',
@@ -93,8 +93,8 @@ const focusAreas = [
     desc: 'AWS deployments, Vercel, and Linux environments — building apps that run reliably.',
   },
   {
-    title: 'Secure Design',
-    desc: 'Cryptography, network protocols, and attack/defense principles applied throughout the SDLC.',
+    title: 'Mathematical Foundations',
+    desc: 'Math minor spanning calculus, linear algebra, differential equations, real analysis, number theory, and complex variables.',
   },
 ]
 
@@ -148,11 +148,14 @@ export default function About() {
         <h2 className="section-heading">Profile</h2>
         <p className="about-bio">
           I build full-stack, mobile, and cloud-deployed applications with a focus on clean
-          architecture and secure design. Currently pursuing a B.S. in Computer Science at the
-          University of Utah (3.69 GPA), with hands-on experience across the full stack — from
-          FastAPI and Django backends to React and Expo/React Native frontends with Supabase.
-          Outside of code, I've spent seven-plus years as a restaurant supervisor, which shapes how
-          I think about systems, communication, and accountability under pressure.
+          architecture and thoughtful data design. Currently pursuing a B.S. in Computer Science
+          with a Math minor at the University of Utah (3.69 GPA), with hands-on experience across
+          the full stack — from FastAPI and Django backends to React and Expo/React Native
+          frontends with Supabase. My math coursework spans calculus, linear algebra, differential
+          equations, real analysis, number theory, and complex variables, giving me a strong
+          quantitative foundation to draw on. Outside of code, I've spent seven-plus years as a
+          restaurant supervisor, which shapes how I think about systems, communication, and
+          accountability under pressure.
         </p>
       </section>
 
