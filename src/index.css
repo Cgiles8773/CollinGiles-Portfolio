@@ -17,6 +17,10 @@
   --color-text:          #1a1a1a;
 }
 
+html {
+  font-size: 118.75%;
+}
+
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;

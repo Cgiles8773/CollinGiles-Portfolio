@@ -2,7 +2,7 @@ const projects = [
   {
     slug: 'ascii-camera',
     title: 'ASCII Camera',
-    description: 'An Ascii art generator, with adjustable parameters. This project was developed for fun over a couple of days, with all of the backend code written by hand. I plan to add edge aware characters, and even a real time camera filter.',
+    description: 'An Ascii art generator, with adjustable parameters. This project was developed for fun over a couple of days, with all of the backend code written by hand.',
     image: new URL('../assets/ascii-art.png', import.meta.url).href,
     tech: ['React', 'JavaScript', 'Canvas'],
     skills: ['Image Processing', 'Real-Time Rendering', 'From-Scratch Algorithms'],
@@ -11,7 +11,7 @@ const projects = [
   {
     slug: 'bitty-budget',
     title: 'Bitty Budget',
-    description: 'A small single-page budgeting app for tracking a cash balance against recurring expenses, one-time costs, and paychecks. Everything runs client-side and persists to localStorage, with no backend or account system required.',
+    description: 'A small single-page budgeting app for tracking a cash balance against recurring expenses, one-time costs, and paychecks. Everything runs client-side and persists to localStorage, with no backend or account required.',
     image: new URL('../assets/bitty-budget.png', import.meta.url).href,
     tech: ['React', 'TypeScript', 'Vite', 'Recharts', 'Claude Code'],
     skills: ['Personal Finance Tooling', 'Data Visualization', 'State Management', 'AI-Driven Development'],
