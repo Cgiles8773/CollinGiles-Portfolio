@@ -211,6 +211,10 @@
 
 /* Responsive */
 @media (max-width: 640px) {
+  .about-page {
+    padding: 2rem 1.25rem;
+  }
+
   .about-title {
     font-size: 2.25rem;
   }
@@ -224,5 +228,9 @@
   .education-meta {
     flex-direction: row;
     gap: 1rem;
+  }
+
+  .skills-grid {
+    grid-template-columns: 1fr;
   }
 }

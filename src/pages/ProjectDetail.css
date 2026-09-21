@@ -81,6 +81,17 @@
   border-radius: 4px;
 }
 
+@media (max-width: 640px) {
+  .project-detail-page {
+    padding: 1.25rem;
+  }
+
+  .project-iframe {
+    height: calc(100vh - 220px);
+    min-height: 320px;
+  }
+}
+
 .project-fullscreen-link {
   display: inline-block;
   margin-top: 0.75rem;

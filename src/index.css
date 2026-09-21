@@ -21,6 +21,11 @@ html {
   font-size: 118.75%;
 }
 
+html, body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
