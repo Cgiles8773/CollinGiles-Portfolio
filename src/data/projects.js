@@ -43,7 +43,7 @@ const projects = [
     image: new URL('../assets/hubble.png', import.meta.url).href,
     tech: ['React', 'JavaScript', 'Supabase', 'Expo'],
     skills: ['Product Design', 'Mobile Development', 'Teamwork', 'API integration', 'Database Design'],
-    liveUrl: 'https://readhubble.expo.app/',
+    liveUrl: 'https://readhubble.com/',
   },
   {
     slug: 'linear-regression',
